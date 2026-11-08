@@ -1,23 +1,7 @@
 import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
 import MeetingDetail from '@/components/MeetingDetail';
-import type { SacramentMeeting } from '@/lib/types';
-
-async function getMeeting(id: string): Promise<SacramentMeeting> {
-  const response = await fetch(
-    `http://localhost:3000/api/meetings/${id}`
-  );
-
-  if (response.status === 400 || response.status === 404) {
-    notFound();
-  }
-
-  if (!response.ok) {
-    throw new Error('Failed to fetch meeting');
-  }
-
-  return response.json();
-}
+import { getMeetingById } from '@/lib/meetings-db';
 
 export default function MeetingPage({
   params,
@@ -45,7 +29,17 @@ async function MeetingContent({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const meeting = await getMeeting(id);
+  const meetingId = Number(id);
+
+  if (!Number.isInteger(meetingId) || meetingId <= 0) {
+    notFound();
+  }
+
+  const meeting = getMeetingById(meetingId);
+
+  if (!meeting) {
+    notFound();
+  }
 
   return <MeetingDetail meeting={meeting} />;
 }

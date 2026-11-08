@@ -7,13 +7,13 @@ export default function NavLinks() {
     const pathname = usePathname();
 
     const links = [
-        { href: "/", label: "Inicio" },
-        { href: "/meetings", label: "Reuniones" },
-        { href: "/meetings/current", label: "Reunión actual" },
+        { href: "/", label: "Home" },
+        { href: "/meetings", label: "Meetings" },
+        { href: "/meetings/current", label: "Current Meeting" },
     ];
 
     return (
-        <nav className="space-x-4">
+        <nav className="flex flex-wrap justify-center gap-x-4 gap-y-2">
             {links.map((link) => {
                 const isActive =
                     pathname === link.href ||

@@ -9,7 +9,7 @@ export default async function Header() {
 
     return (
         <header className="bg-[#556B2F] text-[#F5F5DC] shadow-md">
-            <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col gap-3 items-center md:flex-row md:justify-between">
                 <h1 className="text-xl font-bold tracking-wide">
                     Greenvilla Ward
                 </h1>

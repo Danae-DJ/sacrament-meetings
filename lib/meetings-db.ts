@@ -3,25 +3,6 @@ import type { SacramentMeeting } from './types';
 const meetings: SacramentMeeting[] = [
   {
     id: 1,
-    date: '2026-09-20',
-    meetingType: 'regular',
-    presiding: 'Bishop Smith',
-    conducting: 'Brother Jones',
-    openingHymn: { number: 2, title: 'The Spirit of God' },
-    openingPrayer: 'Sister Williams',
-    wardBusiness: [{ description: 'Sustaining of new Primary president' }],
-    stakeBusiness: false,
-    sacramentHymn: { number: 169, title: "In Remembrance of Thy Suffering" },
-    speakers: [
-      { name: 'Sister Brown', topic: 'Faith in Jesus Christ', type: 'speaker' },
-      { name: 'Youth Choir', topic: '', type: 'musical-number' }
-    ],
-    closingHymn: { number: 31, title: 'O God, Our Help in Ages Past' },
-    closingPrayer: 'Brother Davis',
-    announcements: ['Ward temple night: Oct 10']
-  },
-  {
-    id: 2,
     date: '2026-09-27',
     meetingType: 'regular',
     presiding: 'Bishop Smith',
@@ -40,8 +21,27 @@ const meetings: SacramentMeeting[] = [
     announcements: ['Ward temple night: Oct 10']
   },
   {
-    id: 3,
+    id: 2,
     date: '2026-10-04',
+    meetingType: 'general',
+    presiding: 'Prophet Dallin H. Oacks',
+    conducting: 'Apostle Henry B. Eyring',
+    openingHymn: { number: 56, title: 'oh, creations of the Lord' },
+    openingPrayer: 'Sister Sommers',
+    wardBusiness: [{ description: 'Finances' }],
+    stakeBusiness: false,
+    sacramentHymn: { number: 234, title: "Called to serve" },
+    speakers: [
+      { name: 'Sister Lee', topic: 'Charity', type: 'speaker' },
+      { name: 'Brother Neil', topic: 'Hope', type: 'speaker' }
+    ],
+    closingHymn: { number: 88, title: 'when you teach your children' },
+    closingPrayer: 'Brother Job',
+    announcements: ['Temples']
+  },
+  {
+    id: 3,
+    date: '2026-10-11',
     meetingType: 'testimony',
     presiding: 'Bishop Smith',
     conducting: 'Bishop Smith',
@@ -60,7 +60,7 @@ const meetings: SacramentMeeting[] = [
   },
   {
     id: 4,
-    date: '2026-10-11',
+    date: '2026-10-18',
     meetingType: 'stake',
     presiding: 'President of Stake Timothy',
     conducting: 'Bishop Smith',
@@ -81,7 +81,7 @@ const meetings: SacramentMeeting[] = [
   },
   {
     id: 5,
-    date: '2026-10-18',
+    date: '2026-10-25',
     meetingType: 'regular',
     presiding: 'Bishop Smith',
     conducting: 'Brother Manson',
@@ -97,6 +97,63 @@ const meetings: SacramentMeeting[] = [
     closingHymn: { number: 56, title: 'We Are All Children of God' },
     closingPrayer: 'Brother Franklin',
     announcements: ['Working about genealogy and temple work']
+  },
+  {
+    id: 6,
+    date: '2026-11-01',
+    meetingType: 'regular',
+    presiding: 'Bishop Smith',
+    conducting: 'Brother Jones',
+    openingHymn: { number: 2, title: 'The Spirit of God' },
+    openingPrayer: 'Sister Williams',
+    wardBusiness: [{ description: 'Sustaining of new Primary president' }],
+    stakeBusiness: false,
+    sacramentHymn: { number: 169, title: "In Remembrance of Thy Suffering" },
+    speakers: [
+      { name: 'Sister Brown', topic: 'Faith in Jesus Christ', type: 'speaker' },
+      { name: 'Youth Choir', topic: '', type: 'musical-number' }
+    ],
+    closingHymn: { number: 31, title: 'O God, Our Help in Ages Past' },
+    closingPrayer: 'Brother Davis',
+    announcements: ['Ward temple night: Oct 10']
+  },
+  {
+    id: 7,
+    date: '2026-11-08',
+    meetingType: 'regular',
+    presiding: 'Bishop Smith',
+    conducting: 'Brother Manson',
+    openingHymn: { number: 157, title: 'Blessings of God' },
+    openingPrayer: 'Brother Jackson',
+    wardBusiness: [{ description: 'Baptism of new members' }],
+    stakeBusiness: false,
+    sacramentHymn: { number: 189, title: "All is well" },
+    speakers: [
+      { name: 'Sister Mackey', topic: 'Repentance and Forgiveness', type: 'speaker' },
+      { name: 'Brother Wilson', topic: 'Baptism', type: 'speaker' }
+    ],
+    closingHymn: { number: 101, title: 'Foundation of my Blessings' },
+    closingPrayer: 'Brother Miller',
+    announcements: ['Ward temple night: Oct 10']
+  },
+  {
+    id: 8,
+    date: '2026-11-15',
+    meetingType: 'regular',
+    presiding: 'Bishop Smith',
+    conducting: 'Brother Johson',
+    openingHymn: { number: 7, title: 'another year' },
+    openingPrayer: 'Brother Jackson',
+    wardBusiness: [{ description: 'New babies' }],
+    stakeBusiness: false,
+    sacramentHymn: { number: 100, title: "it happened on a distant hill" },
+    speakers: [
+      { name: 'Sister Monsier', topic: 'Agreements', type: 'speaker' },
+      { name: 'Brother Sona', topic: 'Holy Ghost', type: 'speaker' }
+    ],
+    closingHymn: { number: 15, title: 'Praise to the prophet' },
+    closingPrayer: 'Brother Miller',
+    announcements: ['Ward cleanup']
   }
 ];
 
@@ -108,3 +165,27 @@ export function getMeetings(date?: string | null): SacramentMeeting[] {
 export function getMeetingById(id: number): SacramentMeeting | null {
   return meetings.find(m => m.id === id) ?? null;
 }
+
+export function getNextMeeting(): SacramentMeeting | null {
+  const today = new Date();
+
+  const todayString = [
+    today.getFullYear(),
+    String(today.getMonth() + 1).padStart(2, '0'),
+    String(today.getDate()).padStart(2, '0'),
+  ].join('-');
+
+  const upcomingMeetings = getMeetings()
+    .filter((meeting) => meeting.date >= todayString)
+    .sort((a, b) => a.date.localeCompare(b.date));
+
+  return upcomingMeetings[0] ?? null;
+}
+
+/** //getNextMeeting:
+1. Obtiene la fecha de hoy.
+2. Busca las reuniones cuya fecha sea igual o posterior a hoy.
+3. Ordena las reuniones desde la fecha más cercana hasta la más lejana.
+4. Devuelve la primera reunión. Si no encuentra ninguna, devuelve null.
+5. Utilizamos localeCompare() para ordenar las fechas, ya que están guardadas en formato YYYY-MM-DD.
+ */

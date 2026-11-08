@@ -8,6 +8,7 @@ export default function Home() {
           alt="Illustration of a chapel"
           width={300}
           height={200}
+          className="w-full max-w-[300px] h-auto"
           priority
         />
 

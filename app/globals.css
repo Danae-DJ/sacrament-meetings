@@ -1,26 +1,62 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f5f0e6;
+  --foreground: #3e4632;
+  --olive: #556b2f;
+  --sand: #d8cdb8;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-olive: var(--olive);
+  --color-sand: var(--sand);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* Version 1 */
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+}
+
+/* //version 2
+body {
+  background-color: var(--background);
+  background-image: url('/book2.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 350px;
+  background-attachment: fixed;
+}*/
+
+/* //version 3
+body {
+  position: relative;
+  isolation: isolate;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url('/book.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 350px;
+  opacity: 0.12;
+  pointer-events: none;
+  z-index: -1;
+}
+*/
+
+.active {
+  font-weight: bold;
+  text-decoration: underline;
+  text-underline-offset: 6px;
 }

@@ -1,8 +1,8 @@
 //NO TOCAR, LO UNICO QUE IMPORTA ES QUE FUNCIONA!!!!
 import { Suspense } from 'react';
 import { connection } from 'next/server';
+import { redirect } from 'next/navigation';
 import { getNextMeeting } from '@/lib/meetings-db';
-import MeetingDetail from '@/components/MeetingDetail';
 
 export default function CurrentMeetingPage() {
   return (
@@ -35,13 +35,11 @@ async function CurrentMeetingContent() {
 
   const meeting = getNextMeeting();
 
-  return meeting ? (
-    <MeetingDetail meeting={meeting} />
-  ) : (
-    <p className="text-center py-10">
-      No upcoming meetings are scheduled.
-    </p>
-  );
+  if (meeting) {
+    return redirect(`/meetings/${meeting.id}`);
+  }
+
+  return redirect('/meetings');
 }
 
 /*Notas despues de mucho ensayo y error:
@@ -59,4 +57,5 @@ CurrentMeetingPage: muestra la estructura de la página y el límite de Suspense
 CurrentMeetingContent: obtiene la fecha actual, 
 busca la próxima reunión y muestra sus detalles.
 Es decir, tanto connection() como getNextMeeting() se ejecutan dentro de Suspense.
+Nota: return redirect(...) indica explícitamente que la función termina allí.
 */

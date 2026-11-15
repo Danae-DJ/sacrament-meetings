@@ -1,8 +1,9 @@
+
 import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
+import { headers } from 'next/headers';
 import MeetingDetail from '@/components/MeetingDetail';
-import { getMeetingById } from '@/lib/meetings-db';
-
+import type { SacramentMeeting } from '@/lib/types';
 export default function MeetingPage({
   params,
 }: {
@@ -35,11 +36,27 @@ async function MeetingContent({
     notFound();
   }
 
-  const meeting = getMeetingById(meetingId);
+  const headersList = await headers();
+  const host =
+    headersList.get('x-forwarded-host') ??
+    headersList.get('host');
+  const protocol =
+    headersList.get('x-forwarded-proto') ?? 'http';
 
-  if (!meeting) {
+  if (!host) {
+    throw new Error('Unable to determine server host');
+  }
+
+  const response = await fetch(
+    `${protocol}://${host}/api/meetings/${meetingId}`,
+    { cache: 'no-store' }
+  );
+
+  if (!response.ok) {
     notFound();
   }
+
+  const meeting: SacramentMeeting = await response.json();
 
   return <MeetingDetail meeting={meeting} />;
 }
@@ -54,4 +71,9 @@ MeetingPage: prepara la página y establece el límite de Suspense.
 MeetingContent: realiza la solicitud a la API y presenta los detalles
 notFound(): muestra la página 404 si la reunión no existe.
 MeetingDetail: reutiliza el componente que ya construido para presentar toda la información.
+headers() nos permite conocer el host y protocolo de la aplicación para construir una URL completa.
+fetch() solicita la reunión a /api/meetings/${meetingId}.
+response.ok comprueba si la API respondió correctamente.
+Si la API devuelve un error, mostramos la página 404.
+MeetingDetail sigue mostrando la reunión como antes.
  */

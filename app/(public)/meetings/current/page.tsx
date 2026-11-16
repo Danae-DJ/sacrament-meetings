@@ -33,7 +33,7 @@ export default function CurrentMeetingPage() {
 async function CurrentMeetingContent() {
   await connection();
 
-  const meeting = getNextMeeting();
+  const meeting = await getNextMeeting();
 
   if (meeting) {
     return redirect(`/meetings/${meeting.id}`);

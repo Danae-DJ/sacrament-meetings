@@ -20,7 +20,7 @@ export async function GET(
   }
 
   // Find the meeting
-  const meeting = getMeetingById(meetingId);
+  const meeting = await getMeetingById(meetingId);
 
   // Return 404 if the meeting does not exist
   if (!meeting) {

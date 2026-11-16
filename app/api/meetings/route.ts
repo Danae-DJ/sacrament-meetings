@@ -1,15 +1,11 @@
-
 import { NextRequest, NextResponse } from 'next/server';
-import { getMeetings } from '@/lib/meetings-db';
+import { getMeetingsByDate } from '@/lib/meetings-db';
 
 export async function GET(request: NextRequest) {
-  // Get the optional date from the URL
   const date = request.nextUrl.searchParams.get('date');
 
-  // Retrieve all meetings or filter by date
-  const meetings = getMeetings(date);
+  const meetings = await getMeetingsByDate(date);
 
-  // Return the meetings as JSON
   return NextResponse.json(meetings);
 }
 

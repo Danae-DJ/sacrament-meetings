@@ -157,27 +157,87 @@ export async function getNextMeeting(): Promise<SacramentMeeting | null> {
 }
 
 
-// Mutation stubs — will be wired to the database in Week 04
+// Database mutations
 
 export async function addMeeting(
   data: Omit<SacramentMeeting, 'id'>
 ): Promise<SacramentMeeting> {
-  void data;
-  throw new Error('addMeeting: database implementation coming in Week 04');
+  const rows = await sql`
+    INSERT INTO meetings (
+      date,
+      meeting_type,
+      presiding,
+      conducting,
+      announcements,
+      opening_hymn,
+      opening_prayer,
+      ward_business,
+      stake_business,
+      sacrament_hymn,
+      speakers,
+      closing_hymn,
+      closing_prayer
+    )
+    VALUES (
+      ${data.date},
+      ${data.meetingType},
+      ${data.presiding},
+      ${data.conducting},
+      ${data.announcements ?? []},
+      ${JSON.stringify(data.openingHymn)}::jsonb,
+      ${data.openingPrayer},
+      ${JSON.stringify(data.wardBusiness)}::jsonb,
+      ${data.stakeBusiness},
+      ${JSON.stringify(data.sacramentHymn)}::jsonb,
+      ${JSON.stringify(data.speakers)}::jsonb,
+      ${JSON.stringify(data.closingHymn)}::jsonb,
+      ${data.closingPrayer}
+    )
+    RETURNING *
+  `;
+
+  return mapMeeting(rows[0] as unknown as MeetingRow);
 }
 
 export async function updateMeeting(
   id: number,
   updates: Partial<SacramentMeeting>
 ): Promise<SacramentMeeting | null> {
-  void id;
-  void updates;
-  throw new Error('updateMeeting: database implementation coming in Week 04');
+  const rows = await sql`
+    UPDATE meetings
+    SET
+      date = ${updates.date},
+      meeting_type = ${updates.meetingType},
+      presiding = ${updates.presiding},
+      conducting = ${updates.conducting},
+      announcements = ${updates.announcements ?? []},
+      opening_hymn = ${JSON.stringify(updates.openingHymn)}::jsonb,
+      opening_prayer = ${updates.openingPrayer},
+      ward_business = ${JSON.stringify(updates.wardBusiness ?? [])}::jsonb,
+      stake_business = ${updates.stakeBusiness ?? false},
+      sacrament_hymn = ${JSON.stringify(updates.sacramentHymn)}::jsonb,
+      speakers = ${JSON.stringify(updates.speakers ?? [])}::jsonb,
+      closing_hymn = ${JSON.stringify(updates.closingHymn)}::jsonb,
+      closing_prayer = ${updates.closingPrayer}
+    WHERE id = ${id}
+    RETURNING *
+  `;
+
+  if (rows.length === 0) {
+    return null;
+  }
+
+  return mapMeeting(rows[0] as unknown as MeetingRow);
 }
 
 export async function deleteMeeting(id: number): Promise<boolean> {
-  void id;
-  throw new Error('deleteMeeting: database implementation coming in Week 04');
+  const rows = await sql`
+    DELETE FROM meetings
+    WHERE id = ${id}
+    RETURNING id
+  `;
+
+  return rows.length > 0;
 }
 
 /** //getNextMeeting:

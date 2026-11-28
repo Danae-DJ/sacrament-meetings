@@ -1,4 +1,5 @@
-import type { SacramentMeeting } from '@/lib/types';
+import Link from "next/link";
+import type { SacramentMeeting } from "@/lib/types";
 
 interface MeetingDetailProps {
   meeting: SacramentMeeting;
@@ -8,9 +9,7 @@ export default function MeetingDetail({ meeting }: MeetingDetailProps) {
   return (
     <article className="bg-white border border-sand rounded-lg p-6 shadow-sm space-y-6">
       <header>
-        <h2 className="text-2xl font-bold text-olive">
-          Sacrament Meeting
-        </h2>
+        <h2 className="text-2xl font-bold text-olive">Sacrament Meeting</h2>
         <p className="text-sm mt-1">
           <strong>Date:</strong> {meeting.date}
         </p>
@@ -21,16 +20,23 @@ export default function MeetingDetail({ meeting }: MeetingDetailProps) {
 
       <section>
         <h3 className="text-lg font-semibold text-olive">Leadership</h3>
-        <p><strong>Presiding:</strong> {meeting.presiding}</p>
-        <p><strong>Conducting:</strong> {meeting.conducting}</p>
+        <p>
+          <strong>Presiding:</strong> {meeting.presiding}
+        </p>
+        <p>
+          <strong>Conducting:</strong> {meeting.conducting}
+        </p>
       </section>
 
       <section>
         <h3 className="text-lg font-semibold text-olive">Opening</h3>
         <p>
-          <strong>Opening hymn:</strong> #{meeting.openingHymn.number} - {meeting.openingHymn.title}
+          <strong>Opening hymn:</strong> #{meeting.openingHymn.number} -{" "}
+          {meeting.openingHymn.title}
         </p>
-        <p><strong>Opening prayer:</strong> {meeting.openingPrayer}</p>
+        <p>
+          <strong>Opening prayer:</strong> {meeting.openingPrayer}
+        </p>
       </section>
 
       <section>
@@ -53,15 +59,20 @@ export default function MeetingDetail({ meeting }: MeetingDetailProps) {
       <section>
         <h3 className="text-lg font-semibold text-olive">Sacrament</h3>
         <p>
-          <strong>Sacrament hymn:</strong> #{meeting.sacramentHymn.number} - {meeting.sacramentHymn.title}
+          <strong>Sacrament hymn:</strong> #{meeting.sacramentHymn.number} -{" "}
+          {meeting.sacramentHymn.title}
         </p>
       </section>
 
       <section>
-        <h3 className="text-lg font-semibold text-olive">Speakers and Musical Numbers</h3>
+        <h3 className="text-lg font-semibold text-olive">
+          Speakers and Musical Numbers
+        </h3>
         {meeting.speakers.map((item, index) => (
           <p key={index}>
-            <strong>{item.type === 'speaker' ? 'Speaker' : 'Musical Number'}:</strong>{' '}
+            <strong>
+              {item.type === "speaker" ? "Speaker" : "Musical Number"}:
+            </strong>{" "}
             {item.name} — {item.topic}
           </p>
         ))}
@@ -70,10 +81,29 @@ export default function MeetingDetail({ meeting }: MeetingDetailProps) {
       <section>
         <h3 className="text-lg font-semibold text-olive">Closing</h3>
         <p>
-          <strong>Closing hymn:</strong> #{meeting.closingHymn.number} - {meeting.closingHymn.title}
+          <strong>Closing hymn:</strong> #{meeting.closingHymn.number} -{" "}
+          {meeting.closingHymn.title}
         </p>
-        <p><strong>Closing prayer:</strong> {meeting.closingPrayer}</p>
+        <p>
+          <strong>Closing prayer:</strong> {meeting.closingPrayer}
+        </p>
       </section>
+
+      <footer className="flex flex-wrap gap-3 border-t border-sand pt-4">
+        <Link
+          href={`/meetings/${meeting.id}/edit`}
+          className="bg-olive text-white px-4 py-2 rounded hover:opacity-90 transition"
+        >
+          Edit Meeting
+        </Link>
+
+        <Link
+          href="/meetings"
+          className="border border-olive text-olive px-4 py-2 rounded hover:bg-sand transition"
+        >
+          Back to Meetings
+        </Link>
+      </footer>
     </article>
   );
 }

@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import MeetingCard from '@/components/MeetingCard';
-import type { SacramentMeeting } from '@/lib/types';
+import { useEffect, useState } from "react";
+import MeetingCard from "@/components/MeetingCard";
+import type { SacramentMeeting } from "@/lib/types";
 
 export default function MeetingsList() {
   const [meetings, setMeetings] = useState<SacramentMeeting[]>([]);
@@ -12,16 +12,16 @@ export default function MeetingsList() {
   useEffect(() => {
     async function fetchMeetings() {
       try {
-        const response = await fetch('/api/meetings');
+        const response = await fetch("/api/meetings");
 
         if (!response.ok) {
-          throw new Error('Failed to fetch meetings');
+          throw new Error("Failed to fetch meetings");
         }
 
         const data: SacramentMeeting[] = await response.json();
         setMeetings(data);
       } catch {
-        setError('Unable to load meetings. Please try again.');
+        setError("Unable to load meetings. Please try again.");
       } finally {
         setLoading(false);
       }
